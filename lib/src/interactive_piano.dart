@@ -351,7 +351,7 @@ class __PianoKeyState extends State<_PianoKey>
       return note; // CDE表記はそのまま返す
     }
     // ドレミ表記に変換
-    else {
+    else if (nameType == 'ドレミ')  {
       //print("ドレミ表記");
       String firstLetter = note[0];
       String rest = note.substring(1);
@@ -371,6 +371,9 @@ class __PianoKeyState extends State<_PianoKey>
         case "B":
           return "シ"+rest;
       }
+    }
+    else {
+      return rest;
     }
     print("不明な音名: $note");
     return note; // 例: 'C'
