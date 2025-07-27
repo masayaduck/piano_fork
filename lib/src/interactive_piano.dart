@@ -45,6 +45,8 @@ class InteractivePiano extends StatefulWidget {
   /// Set and change at any time (i.e. with `setState`) to cause the piano to scroll so that the desired note is centered.
   final NotePosition? noteToScrollTo;
 
+  final String nameType; // 'CDE' or 'ドレミ'
+
   /// See individual parameters for more information. The only required parameter
   /// is `noteRange`. Since the widget wraps a scroll view and therefore has no
   /// "intrinsic" size, be sure to use inside a parent that specifies one.
@@ -78,7 +80,8 @@ class InteractivePiano extends StatefulWidget {
       this.hideScrollbar = false,
       this.onNotePositionTapped,
       this.noteToScrollTo,
-      this.keyWidth})
+      this.keyWidth,
+      this.nameType = 'CDE'})
       : super(key: key);
 
   @override
@@ -205,7 +208,8 @@ class _InteractivePianoState extends State<InteractivePiano> {
                                             ? widget.highlightColor
                                             : null,
                                     keyWidth: _lastKeyWidth,
-                                    onTap: _onNoteTapped(note)))
+                                    onTap: _onNoteTapped(note),
+                                    nameType: widget.nameType))
                                 .toList(),
                           ),
                           Positioned(
@@ -234,6 +238,7 @@ class _InteractivePianoState extends State<InteractivePiano> {
                                                 : null,
                                             keyWidth: _lastKeyWidth,
                                             onTap: _onNoteTapped(note),
+                                            nameType: widget.nameType,
                                           ),
                                         )
                                         .toList(),
@@ -261,6 +266,8 @@ class _PianoKey extends StatefulWidget {
 
   final Color _color;
 
+  final String nameType; // 'CDE' or 'ドレミ'
+
   _PianoKey({
     Key? key,
     required this.notePosition,
@@ -270,6 +277,7 @@ class _PianoKey extends StatefulWidget {
     required this.isAnimated,
     required Color color,
     Color? highlightColor,
+    this.nameType = 'CDE',
   })  : _borderRadius = BorderRadius.only(
             bottomLeft: Radius.circular(keyWidth * 0.2),
             bottomRight: Radius.circular(keyWidth * 0.2)),
@@ -336,6 +344,34 @@ class __PianoKeyState extends State<_PianoKey>
     }
   }
 
+  String noteToDoReMi(String note, String nameType) {
+    if (nameType == 'CDE') {
+      print("CDE表記");
+      return note; // CDE表記はそのまま返す
+    }
+    // ドレミ表記に変換
+    else {
+      print("ドレミ表記");
+      switch (note) {
+        case "C":
+          return "ド";
+        case "D":
+          return "レ";
+        case "E":
+          return "ミ";
+        case "F":
+          return "ファ";
+        case "G":
+          return "ソ";
+        case "A":
+          return "ラ";
+        case "B":
+          return "シ";
+      }
+    }
+    return note; // 例: 'C'
+  }
+
   @override
   Widget build(BuildContext context) => Container(
         width: widget.keyWidth,
@@ -352,7 +388,7 @@ class __PianoKeyState extends State<_PianoKey>
             children: [
               Semantics(
                   button: true,
-                  hint: widget.notePosition.name,
+                  hint: noteToDoReMi(widget.notePosition.name, widget.nameType),
                   child: Material(
                       borderRadius: widget._borderRadius,
                       elevation:
@@ -391,7 +427,8 @@ class __PianoKeyState extends State<_PianoKey>
                         : Padding(
                             padding: const EdgeInsets.all(2),
                             child: Text(
-                              widget.notePosition.name,
+                              noteToDoReMi(
+                                  widget.notePosition.name, widget.nameType),
                               textAlign: TextAlign.center,
                               textScaleFactor: 1.0,
                               style: TextStyle(
