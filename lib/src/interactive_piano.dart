@@ -345,30 +345,34 @@ class __PianoKeyState extends State<_PianoKey>
   }
 
   String noteToDoReMi(String note, String nameType) {
+    print("nameType: $nameType, note: $note");
     if (nameType == 'CDE') {
-      print("CDE表記");
+      //print("CDE表記");
       return note; // CDE表記はそのまま返す
     }
     // ドレミ表記に変換
     else {
-      print("ドレミ表記");
-      switch (note) {
+      //print("ドレミ表記");
+      String firstLetter = note[0];
+      String rest = note.substring(1);
+      switch (firstLetter) {
         case "C":
-          return "ド";
+          return "ド"+rest;;
         case "D":
-          return "レ";
+          return "レ"+rest;
         case "E":
-          return "ミ";
+          return "ミ"+rest;
         case "F":
-          return "ファ";
+          return "ファ"+rest;
         case "G":
-          return "ソ";
+          return "ソ"+rest;
         case "A":
-          return "ラ";
+          return "ラ"+rest;
         case "B":
-          return "シ";
+          return "シ"+rest;
       }
     }
+    print("不明な音名: $note");
     return note; // 例: 'C'
   }
 
