@@ -345,7 +345,7 @@ class __PianoKeyState extends State<_PianoKey>
   }
 
   String noteToDoReMi(String note, String nameType) {
-    print("nameType: $nameType, note: $note");
+    //print("nameType: $nameType, note: $note");
     if (nameType == 'CDE') {
       //print("CDE表記");
       return note; // CDE表記はそのまま返す
