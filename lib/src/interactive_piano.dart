@@ -350,11 +350,11 @@ class __PianoKeyState extends State<_PianoKey>
       //print("CDE表記");
       return note; // CDE表記はそのまま返す
     }
+    String firstLetter = note[0];
+    String rest = note.substring(1);
     // ドレミ表記に変換
-    else if (nameType == 'ドレミ')  {
+    if (nameType == 'ドレミ')  {
       //print("ドレミ表記");
-      String firstLetter = note[0];
-      String rest = note.substring(1);
       switch (firstLetter) {
         case "C":
           return "ド"+rest;;
